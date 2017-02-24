@@ -9,11 +9,11 @@ def main():
 
     for a in ps:
         for b in ps:
-            dest = 'mmrp_a{a}_b{b}'.format(a=a, b=b)
+            dest = 'mmrp_a{a}_b{b}.txt'.format(a=a, b=b)
             mm(alpha=a, beta=b, count=count, dest=dest)
 
             for p in ps:
-                dest = 'mmbp_a{a}_b{b}_p{p}'.format(a=a, b=b, p=p)
+                dest = 'mmbp_a{a}_b{b}_p{p}.txt'.format(a=a, b=b, p=p)
                 mm(alpha=a, beta=b, p=p, count=count, dest=dest)
 
 
