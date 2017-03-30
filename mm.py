@@ -56,18 +56,19 @@ def rand():
     return random.uniform(0, 1)
 
 
-def main(alpha, beta, count, sampling, p=None, dest=None):
+def main(alpha, beta, count, sample_size, p=None, dest=None):
     state = StateManager(State.A, 1)
+    sampled_count = count * sample_size
 
     if p is None:
-        mmrp(alpha, beta, count, state)
+        mmrp(alpha, beta, sampled_count, state)
     else:
-        mmbp(alpha, beta, p, count, state)
+        mmbp(alpha, beta, p, sampled_count, state)
 
     # sample the values
     sampled_values = []
-    for i in range(0, len(state.get_values()) - 1, sampling):
-        val = sum(state.get_values()[i:i + sampling])
+    for i in range(0, len(state.get_values()) - 1, sample_size):
+        val = sum(state.get_values()[i:i + sample_size])
         sampled_values.append(val)
 
     values = ' '.join([str(v) for v in sampled_values])
@@ -151,4 +152,4 @@ if __name__ == '__main__':
     s = int(args.sample)
 
     # run
-    main(alpha=alpha, beta=beta, count=count, sampling=s, p=p, dest=args.dest)
+    main(alpha=alpha, beta=beta, count=count, sample_size=s, p=p, dest=args.dest)
