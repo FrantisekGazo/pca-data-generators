@@ -133,7 +133,7 @@ if __name__ == '__main__':
                         help="Count of generated values")
     parser.add_argument('-d', '--dest', required=False,
                         help="Destination file")
-    parser.add_argument('-s', '--sample', required=True,
+    parser.add_argument('-s', '--sample', required=False, default=1,
                         help="Sample size")
     args = parser.parse_args()
 
