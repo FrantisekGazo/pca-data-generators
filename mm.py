@@ -56,7 +56,7 @@ def rand():
     return random.uniform(0, 1)
 
 
-def main(alpha, beta, count, p=None, dest=None):
+def main(alpha, beta, count, sampling, p=None, dest=None):
     state = StateManager(State.A, 1)
 
     if p is None:
@@ -64,7 +64,13 @@ def main(alpha, beta, count, p=None, dest=None):
     else:
         mmbp(alpha, beta, p, count, state)
 
-    values = ' '.join([str(v) for v in state.get_values()])
+    # sample the values
+    sampled_values = []
+    for i in range(0, len(state.get_values()) - 1, sampling):
+        val = sum(state.get_values()[i:i + sampling])
+        sampled_values.append(val)
+
+    values = ' '.join([str(v) for v in sampled_values])
     if dest is None:
         # print it out
         print values
@@ -73,7 +79,6 @@ def main(alpha, beta, count, p=None, dest=None):
         f = open(dest, 'w')
         f.write(values)
         f.close()
-
 
 
 def mmrp(alpha, beta, count, state):
@@ -128,6 +133,8 @@ if __name__ == '__main__':
                         help="Count of generated values")
     parser.add_argument('-d', '--dest', required=False,
                         help="Destination file")
+    parser.add_argument('-s', '--sample', required=True,
+                        help="Sample size")
     args = parser.parse_args()
 
     # check params
@@ -141,6 +148,7 @@ if __name__ == '__main__':
         check_probability(p, 'p')
     count = int(args.count)
     check_count(count, 'count')
+    s = int(args.sample)
 
     # run
-    main(alpha=alpha, beta=beta, count=count, p=p, dest=args.dest)
+    main(alpha=alpha, beta=beta, count=count, sampling=s, p=p, dest=args.dest)
